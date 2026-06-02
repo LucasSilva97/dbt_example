@@ -32,5 +32,25 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   dbt_example:
     # Config indicated by + and applies to all files under models/example/
-    example:
-      +materialized: view
+    # Configuração de modelos de materialização
+    # A configuração de materialização é uma das mais importantes, pois define como os modelos serão materializados no banco de dados. As opções comuns incluem:
+    # view: O modelo é materializado como uma visão (view) no banco de dados. As visões são consultas armazenadas que são executadas toda vez que são acessadas. Elas
+    # Definindo workspace
+    staging:
+      #definindo schema padrão
+      schema: staging
+      # definindo estrutura padrão para insert de dados
+      materialized: table
+      tags: ['staging']
+    # Usando outras camadas do medalion
+    intermediate:
+    # Esse modelo não gera uma tabela, apenas executa a query, tipo uma view
+      materialized: ephemeral
+      tags: ['intermediate']
+
+    marts:
+      schema: marts
+      materialized : table
+      tags: ['marts']
+
+    # Tags - método para chamar cada modelo
